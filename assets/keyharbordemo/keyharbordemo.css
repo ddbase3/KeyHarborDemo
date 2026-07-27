@@ -1,0 +1,223 @@
+.keyharbordemo-shell {
+	max-width: 1180px;
+	margin: 0 auto;
+	color: var(--keyharbordemo-text, #20242a);
+}
+
+.keyharbordemo-header,
+.keyharbordemo-section-heading,
+.keyharbordemo-result-header,
+.keyharbordemo-actions,
+.keyharbordemo-token-row {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.keyharbordemo-header,
+.keyharbordemo-section-heading,
+.keyharbordemo-result-header {
+	justify-content: space-between;
+}
+
+.keyharbordemo-header {
+	margin-bottom: 18px;
+	align-items: flex-start;
+}
+
+.keyharbordemo-header h1,
+.keyharbordemo-panel h2,
+.keyharbordemo-result-panel h2,
+.keyharbordemo-service-card h3 {
+	margin: 0;
+}
+
+.keyharbordemo-header p,
+.keyharbordemo-panel p,
+.keyharbordemo-service-card p {
+	line-height: 1.5;
+}
+
+.keyharbordemo-eyebrow {
+	margin: 0 0 5px;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: .06em;
+	text-transform: uppercase;
+	color: #59636f;
+}
+
+.keyharbordemo-panel,
+.keyharbordemo-result-panel,
+.keyharbordemo-alert {
+	margin: 14px 0;
+	padding: 18px;
+	border: 1px solid #d9dde3;
+	border-radius: 10px;
+	background: #fff;
+}
+
+.keyharbordemo-alert-error {
+	border-color: #c55;
+	background: #fff4f4;
+}
+
+.keyharbordemo-form-grid {
+	display: grid;
+	grid-template-columns: minmax(140px, 200px) minmax(260px, 1fr);
+	gap: 12px 16px;
+	align-items: center;
+	max-width: 900px;
+}
+
+.keyharbordemo-form-grid label {
+	font-weight: 600;
+}
+
+.keyharbordemo-form-grid input,
+.keyharbordemo-form-grid select {
+	width: 100%;
+	min-height: 38px;
+	padding: 7px 9px;
+	border: 1px solid #bfc6cf;
+	border-radius: 6px;
+	background: #fff;
+	color: inherit;
+	font: inherit;
+}
+
+.keyharbordemo-token-row input {
+	flex: 1 1 auto;
+}
+
+.keyharbordemo-service-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 14px;
+}
+
+.keyharbordemo-service-card {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: 16px;
+	min-height: 225px;
+	padding: 16px;
+	border: 1px solid #d9dde3;
+	border-radius: 9px;
+	background: #f8f9fb;
+}
+
+.keyharbordemo-service-card code {
+	display: inline-block;
+	margin-top: 8px;
+	font-size: 12px;
+	word-break: break-all;
+}
+
+.keyharbordemo-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 36px;
+	padding: 7px 12px;
+	border: 1px solid #66717e;
+	border-radius: 6px;
+	cursor: pointer;
+	font: inherit;
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.keyharbordemo-button-primary {
+	background: #27374a;
+	color: #fff;
+}
+
+.keyharbordemo-button-secondary {
+	background: #fff;
+	color: #27374a;
+}
+
+.keyharbordemo-button:disabled {
+	opacity: .55;
+	cursor: progress;
+}
+
+.keyharbordemo-hint {
+	margin-top: 10px;
+	font-size: 12px;
+	color: #68727f;
+}
+
+.keyharbordemo-result-header span {
+	font-size: 13px;
+	font-weight: 600;
+}
+
+.keyharbordemo-result-panel pre {
+	min-height: 180px;
+	max-height: 520px;
+	margin: 14px 0 0;
+	padding: 14px;
+	overflow: auto;
+	border-radius: 7px;
+	background: #17202a;
+	color: #eef4fb;
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+@media (prefers-color-scheme: dark) {
+	.keyharbordemo-shell {
+		--keyharbordemo-text: #edf1f5;
+	}
+
+	.keyharbordemo-panel,
+	.keyharbordemo-result-panel {
+		border-color: #48515d;
+		background: #252b33;
+	}
+
+	.keyharbordemo-service-card {
+		border-color: #48515d;
+		background: #1e242b;
+	}
+
+	.keyharbordemo-form-grid input,
+	.keyharbordemo-form-grid select,
+	.keyharbordemo-button-secondary {
+		border-color: #606b78;
+		background: #1e242b;
+		color: #edf1f5;
+	}
+
+	.keyharbordemo-eyebrow,
+	.keyharbordemo-hint {
+		color: #aab3be;
+	}
+}
+
+@media (max-width: 900px) {
+	.keyharbordemo-service-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (max-width: 680px) {
+	.keyharbordemo-header,
+	.keyharbordemo-section-heading,
+	.keyharbordemo-result-header {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.keyharbordemo-form-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.keyharbordemo-token-row {
+		align-items: stretch;
+		flex-direction: column;
+	}
+}
