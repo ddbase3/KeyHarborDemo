@@ -12,7 +12,7 @@ It demonstrates how a BASE3 plugin can:
 - test timestamp and replay protection
 - remain independent of KeyHarbor implementation classes
 
-The plugin depends on framework APIs and `CredentialFoundation`. The active implementation of `IApiCredentialService` is supplied by the final runtime composition, normally KeyHarbor.
+The plugin depends on framework APIs and `CredentialFoundation`. Access control establishes the credential identity through `ICredentialAccess`; the demo endpoint only authorizes the selected service grant. The active implementation is supplied by the final runtime composition, normally KeyHarbor.
 
 ## Services
 
@@ -164,7 +164,7 @@ HTTP 403
 service_not_granted
 ```
 
-No separate demo-only authorization mechanism exists. The result comes from the normal `IApiCredentialService` grant check.
+No separate demo-only authorization mechanism exists. The result comes from the normal `ICredentialAccess::authorizeService()` grant check after access control has established the request identity.
 
 ## Structure
 
@@ -179,7 +179,6 @@ KeyHarborDemo/
 ├── src/
 │   ├── Display/KeyHarborDemoAdminDisplay.php
 │   ├── Provider/KeyHarborDemoServiceProvider.php
-│   ├── Service/DemoRequestAuthenticator.php
 │   └── KeyHarborDemoPlugin.php
 ├── test/
 ├── tpl/Display/KeyHarborDemoAdminDisplay.php
@@ -204,7 +203,7 @@ No database migration is required.
 - Tokens are not persisted by the demo UI.
 - The token field uses password display by default.
 - Server responses never contain token or secret material.
-- HMAC replay protection is provided by the active `IApiCredentialService` implementation.
+- HMAC replay protection is provided while access control establishes the request identity through the active `ICredentialAccess` implementation.
 - Grant checks are performed after credential lifecycle validation.
 - The demo endpoint is intended as reference and verification tooling, not as a business API.
 
