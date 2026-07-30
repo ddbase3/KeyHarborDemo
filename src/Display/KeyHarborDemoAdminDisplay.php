@@ -53,16 +53,24 @@ final class KeyHarborDemoAdminDisplay implements IDisplay {
 	}
 
 	private function handleHtml(): string {
+		$this->view->setPath(DIR_PLUGIN . 'KeyHarborDemo');
+		$this->view->loadBricks('Display');
+		$translations = $this->view->getBricks('keyharbor_demo_admin_display');
+		$translations = is_array($translations) ? $translations : [];
+
 		$error = '';
 		if (!$this->usermanager->can(Permission::for('system', 'admin'))) {
-			$error = 'System administrator permission is required.';
+			$error = trim((string)($translations['permission_required'] ?? ''));
+			if ($error === '') {
+				$error = 'System administrator permission is required.';
+			}
 		}
 
 		$provider = new KeyHarborDemoServiceProvider();
 
-		$this->view->setPath(DIR_PLUGIN . 'KeyHarborDemo');
 		$this->view->setTemplate('Display/KeyHarborDemoAdminDisplay.php');
 		$this->view->assign('error', $error);
+		$this->view->assign('translations', $translations);
 		$this->view->assign(
 			'serviceUrl',
 			$this->linkTargetService->getLink([
