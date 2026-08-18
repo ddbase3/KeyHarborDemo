@@ -49,7 +49,14 @@ final class KeyHarborDemoAdminDisplay implements IDisplay {
 	}
 
 	public function getHelp(): string {
-		return 'Tests CredentialFoundation bearer and HMAC authentication with several service grants.';
+		$this->view->setPath(DIR_PLUGIN . 'KeyHarborDemo');
+		$this->view->loadBricks('Display');
+		$translations = $this->view->getBricks('keyharbor_demo_admin_display');
+		$translations = is_array($translations) ? $translations : [];
+		$help = trim((string)($translations['help'] ?? ''));
+		return $help !== ''
+			? $help
+			: 'Tests CredentialFoundation bearer and HMAC authentication with several service grants.';
 	}
 
 	private function handleHtml(): string {

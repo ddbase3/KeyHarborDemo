@@ -5,12 +5,24 @@
 	if (!root) return;
 
 	var serviceUrl = root.getAttribute('data-service-url') || '';
+	var strings = parseJson(root.getAttribute('data-strings'), {});
 	var tokenInput = root.querySelector('[data-token]');
 	var authMode = root.querySelector('[data-auth-mode]');
 	var messageInput = root.querySelector('[data-message]');
 	var resultNode = root.querySelector('[data-result]');
 	var statusNode = root.querySelector('[data-status]');
 	var buttons = Array.prototype.slice.call(root.querySelectorAll('[data-action]'));
+
+
+	function parseJson(value, fallback) {
+		try { return value ? JSON.parse(value) : fallback; }
+		catch (error) { return fallback; }
+	}
+
+	function t(key, fallback) {
+		var value = strings && typeof strings[key] === 'string' ? strings[key].trim() : '';
+		return value || fallback;
+	}
 
 	function setBusy(busy) {
 		buttons.forEach(function(button) {
@@ -25,13 +37,13 @@
 
 	function getToken() {
 		var token = tokenInput.value.trim();
-		if (!token) throw new Error('Paste a KeyHarbor token first.');
+		if (!token) throw new Error(t('paste_token', 'Paste a KeyHarbor token first.'));
 		return token;
 	}
 
 	function getHmacSecret(token) {
 		var match = /^b3k_[a-f0-9]{20}_([A-Za-z0-9_-]{43})$/.exec(token);
-		if (!match) throw new Error('The token does not match the KeyHarbor token format.');
+		if (!match) throw new Error(t('invalid_token_format', 'The token does not match the KeyHarbor token format.'));
 		return match[1];
 	}
 
@@ -43,7 +55,7 @@
 
 	function requireWebCrypto() {
 		if (!window.crypto || !crypto.subtle) {
-			throw new Error('HMAC testing requires Web Crypto in a secure browser context.');
+			throw new Error(t('webcrypto_required', 'HMAC testing requires Web Crypto in a secure browser context.'));
 		}
 	}
 
@@ -118,7 +130,7 @@
 		try {
 			payload = JSON.parse(text);
 		} catch (error) {
-			payload = {ok: false, error: 'Invalid JSON response', response_text: text};
+			payload = {ok: false, error: t('invalid_json_response', 'Invalid JSON response'), response_text: text};
 		}
 		return {http_status: response.status, response: payload};
 	}
@@ -143,39 +155,39 @@
 		if (action === 'toggle-token') {
 			var visible = tokenInput.type === 'text';
 			tokenInput.type = visible ? 'password' : 'text';
-			button.textContent = visible ? 'Show' : 'Hide';
+			button.textContent = visible ? t('show', 'Show') : t('hide', 'Hide');
 			return;
 		}
 
 		var serviceId = button.getAttribute('data-service-id') || '';
 		setBusy(true);
-		statusNode.textContent = 'Running';
+		statusNode.textContent = t('running', 'Running');
 
 		try {
 			if (action === 'replay') {
-				if (authMode.value !== 'hmac') throw new Error('Replay testing requires HMAC-SHA256 mode.');
+				if (authMode.value !== 'hmac') throw new Error(t('replay_requires_hmac', 'Replay testing requires HMAC-SHA256 mode.'));
 				var timestamp = Math.floor(Date.now() / 1000);
 				var nonce = createNonce();
 				var first = await callService('ping', serviceId, {timestamp: timestamp, nonce: nonce});
 				var second = await callService('ping', serviceId, {timestamp: timestamp, nonce: nonce});
-				showResult('Replay pair completed', {first_request: first, replay_request: second});
+				showResult(t('replay_completed', 'Replay pair completed'), {first_request: first, replay_request: second});
 				return;
 			}
 
 			if (action === 'stale') {
-				if (authMode.value !== 'hmac') throw new Error('Timestamp testing requires HMAC-SHA256 mode.');
+				if (authMode.value !== 'hmac') throw new Error(t('stale_requires_hmac', 'Timestamp testing requires HMAC-SHA256 mode.'));
 				var stale = await callService('ping', serviceId, {
 					timestamp: Math.floor(Date.now() / 1000) - 7200,
 					nonce: createNonce()
 				});
-				showResult('Stale timestamp completed', stale);
+				showResult(t('stale_completed', 'Stale timestamp completed'), stale);
 				return;
 			}
 
 			var result = await callService(action, serviceId, null);
-			showResult('Request completed', result);
+			showResult(t('request_completed', 'Request completed'), result);
 		} catch (error) {
-			showResult('Request failed', {ok: false, error: error instanceof Error ? error.message : String(error)});
+			showResult(t('request_failed', 'Request failed'), {ok: false, error: error instanceof Error ? error.message : String(error)});
 		} finally {
 			setBusy(false);
 		}
