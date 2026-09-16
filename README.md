@@ -210,3 +210,8 @@ No database migration is required.
 ## Accesscontrol path
 
 The JSON demo endpoint is authenticated by `SelectedAccesscontrol` before the display runs. The display reads the resulting user id from `IAccesscontrol`; it no longer performs a second bearer or HMAC validation. This avoids consuming the same HMAC nonce twice in one request and demonstrates the same user context that downstream usermanager checks receive.
+
+## Documentation
+
+- [Frequently Asked Questions](docs/faq.md)
+- [Privacy and data processing](PRIVACY.md)
