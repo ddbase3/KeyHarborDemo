@@ -1,0 +1,20 @@
+{
+	"manifestVersion": 1,
+	"name": "KeyHarborDemo",
+	"namespace": "KeyHarborDemo",
+	"version": "4.4.0",
+	"description": "KeyHarborDemo is a reference consumer for CredentialFoundation.",
+	"license": "GPL-3.0-or-later",
+	"maintainers": [
+		{
+			"name": "Daniel Dahme",
+			"url": "https://www.base3.de",
+			"email": "info@base3.de"
+		}
+	],
+	"repository": "https://github.com/ddbase3/KeyHarborDemo",
+	"dependencies": {
+		"Base3Framework": ">=4.10.0",
+		"CredentialFoundation": ">=4.1.0"
+	}
+}
