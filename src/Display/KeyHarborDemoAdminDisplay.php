@@ -49,7 +49,7 @@ final class KeyHarborDemoAdminDisplay implements IDisplay {
 	}
 
 	public function getHelp(): string {
-		$this->view->setPath(DIR_PLUGIN . 'KeyHarborDemo');
+		$this->view->setPath(dirname(__DIR__, 2));
 		$this->view->loadBricks('Display');
 		$translations = $this->view->getBricks('keyharbor_demo_admin_display');
 		$translations = is_array($translations) ? $translations : [];
@@ -60,7 +60,7 @@ final class KeyHarborDemoAdminDisplay implements IDisplay {
 	}
 
 	private function handleHtml(): string {
-		$this->view->setPath(DIR_PLUGIN . 'KeyHarborDemo');
+		$this->view->setPath(dirname(__DIR__, 2));
 		$this->view->loadBricks('Display');
 		$translations = $this->view->getBricks('keyharbor_demo_admin_display');
 		$translations = is_array($translations) ? $translations : [];
